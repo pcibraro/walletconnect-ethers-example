@@ -41,6 +41,8 @@ function App() {
 
     const provider = new providers.Web3Provider(web3Provider);
     setProvider(provider);
+
+    await signMessage();
   }
 
   async function signMessage() {
@@ -49,6 +51,7 @@ function App() {
     }
     const msg = formatAuthMessage(address, chainId);
     const sig = await provider.send("personal_sign", [msg, address]);
+    alert(sig);
     console.log("Signature", sig);
     console.log("isValid", utils.verifyMessage(msg, sig) === address);
   }
