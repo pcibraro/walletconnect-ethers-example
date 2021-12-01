@@ -42,13 +42,17 @@ function App() {
     const provider = new providers.Web3Provider(web3Provider);
     setProvider(provider);
 
-    await signMessage();
+    signMessage(provider, accounts[0], web3Provider.chainId);
   }
 
-  async function signMessage() {
-    if (!provider) {
-      throw new Error("Provider not connected");
-    }
+  async function auth() {
+    signMessage(provider, address, chainId);
+  }
+
+  async function signMessage(provider : any, address: string, chainId: number) {
+    
+    console.log('signing');
+
     const msg = formatAuthMessage(address, chainId);
     const sig = await provider.send("personal_sign", [msg, address]);
     alert(sig);
@@ -73,7 +77,7 @@ function App() {
         {address ? (
           <>
             <div>{address}</div>
-            <button onClick={signMessage}>Authenticate</button>
+            <button onClick={auth}>Authenticate</button>
             <button onClick={transferDai}>Transfer DAI</button>
           </>
         ) : (
